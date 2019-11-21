@@ -707,10 +707,112 @@ class Piorydeque
 
 public:
 
+	void doublespacep();
+
+	Piorydeque(int capacity = 100) 
+	{
+		type = new ElemType[capacity];
+		Maxsize = capacity;
+		currentsize = 0;
+	}
+	~Piorydeque() 
+	{
+		delete[] type;
+	}
+	bool Isempty() const {
+		return Currentsize == 0;
+	}
+	void enQueue(const ElemType& ty);
+
+	ElemType deQueue();
+
+	ElemType gethead
+	{
+		return type[1];
+	}
 
 
 private:
+	void doublespace();
+	void bulidHeap();
+	void percolateDown(int hole);
 	int Maxsize;
 	int Currentsize;
-
+	ElemType* type;
 };
+
+
+
+template<class ElemType>
+inline void Piorydeque<ElemType>::bulidHeap()
+{
+	
+
+}
+
+template<class ElemType>
+inline void Piorydeque<ElemType>::percolateDown(int hole)
+{
+}
+
+template<class ElemType>
+inline void Piorydeque<ElemType>::doublespacep()
+{
+	doublespace();
+}
+
+template<class ElemType>
+inline void Piorydeque<ElemType>::enQueue(const ElemType & ty)
+{
+	++Currentsize;
+	if (Currentsize == Maxsize-1) {
+		doublespacep();
+	}
+	this.type[Currentsize] = ty;
+	ElemType eletype = ty;
+	int size = Currentsize;
+	for (;   eletype> type[size/2]&&size>1; size /=2)
+	{
+		ElemType t = type[size / 2];
+		type[size / 2] = eletype;
+		type[size] = t;
+
+	}
+
+}
+
+template<class ElemType>
+inline ElemType Piorydeque<ElemType>::deQueue()
+{
+
+	ElemType result = type[1];
+	type[1] = type[Currentsize];
+	--Currentsize;
+	ElemType left,right,temp,;
+	
+	for (int i = 1; i*2 <= Currentsize;)
+	{
+		left = type[i * 2];
+		right = type[i * 2 + 1];
+		if (i*2!=Currentsize)
+		{
+			if (left > right)
+			{
+				temp = left;
+				type[i * 2] = type[i];
+				type[i] = left;
+				i *= 2;
+			}
+			else
+			{
+				temp = right;
+				type[i * 2 + 1] = type[i];
+				type[i] = right;
+				i = i * 2 + 1;
+			}
+		}
+
+	}
+
+	return result;
+}
