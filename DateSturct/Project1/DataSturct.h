@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+using namespace std;
+
 
 template<class EnumType>
 class Stack
@@ -564,7 +567,7 @@ inline LinkQueue<Elem>::~LinkQueue()
 			Calc() :root(nullptr) {};
 			~Calc()
 			{
-				if (root != nullptr);
+				if (root != nullptr)
 				Clear(root);
 			}
 			int result()
@@ -713,7 +716,7 @@ public:
 	{
 		type = new ElemType[capacity];
 		Maxsize = capacity;
-		currentsize = 0;
+		Currentsize = 0;
 	}
 	~Piorydeque() 
 	{
@@ -726,14 +729,14 @@ public:
 
 	ElemType deQueue();
 
-	ElemType gethead
+	ElemType gethead()
 	{
 		return type[1];
 	}
 
 
 private:
-	void doublespace();
+	void Doublesapce();
 	void bulidHeap();
 	void percolateDown(int hole);
 	int Maxsize;
@@ -743,11 +746,16 @@ private:
 
 
 
+
+
+template<class ElemType>
+inline void Piorydeque<ElemType>::Doublesapce()
+{
+}
+
 template<class ElemType>
 inline void Piorydeque<ElemType>::bulidHeap()
 {
-	
-
 }
 
 template<class ElemType>
@@ -758,7 +766,7 @@ inline void Piorydeque<ElemType>::percolateDown(int hole)
 template<class ElemType>
 inline void Piorydeque<ElemType>::doublespacep()
 {
-	doublespace();
+	Doublesapce();
 }
 
 template<class ElemType>
@@ -768,7 +776,7 @@ inline void Piorydeque<ElemType>::enQueue(const ElemType & ty)
 	if (Currentsize == Maxsize-1) {
 		doublespacep();
 	}
-	this.type[Currentsize] = ty;
+	type[Currentsize] = ty;
 	ElemType eletype = ty;
 	int size = Currentsize;
 	for (;   eletype> type[size/2]&&size>1; size /=2)
@@ -788,7 +796,7 @@ inline ElemType Piorydeque<ElemType>::deQueue()
 	ElemType result = type[1];
 	type[1] = type[Currentsize];
 	--Currentsize;
-	ElemType left,right,temp,;
+	ElemType left,right,temp;
 	
 	for (int i = 1; i*2 <= Currentsize;)
 	{
@@ -816,3 +824,505 @@ inline ElemType Piorydeque<ElemType>::deQueue()
 
 	return result;
 }
+
+
+template <class type> int
+Binarysearch(const vector<type> &datas, const type &data) {
+	int low = 1, high = datas.size() - 1;
+	int mid;
+	while (high >low) 
+	{
+		mid = (low + high) / 2;
+
+		if (datas[mid] == data)
+		{
+			return mid;
+		}
+		else if (datas[mid] > data) {
+			low = mid + 1;
+		}
+		else
+		{
+			high = mid - 1;
+		}
+
+	}
+	return 0;
+}
+
+template <class Type>
+class BinarySerarchTree {
+private:
+	struct treenode
+	{
+		treenode *left;
+		treenode *right;
+		Type data;
+		treenode(treenode *lf, treenode* ri, const Type& x) :left(lf), right(ri), data(x) {};
+
+	};
+	treenode* root;
+
+	void remove(const Type&x,treenode* root);
+	void insert(const Type&x, treenode* &root);
+	bool find(const Type&x, treenode* root);
+public:
+	void remove(const Type& x);
+	void insert(const Type& x);
+	bool find(const Type& x);
+
+};
+
+template<class Type>
+inline void BinarySerarchTree<Type>::remove(const Type & x, treenode * node)
+{
+	if (node == nullptr)
+	{
+		return;
+	}
+
+	
+
+
+	if (x < node->data) 
+	{
+		remove(x, node->left);
+	}
+	else if (x > node->data)
+	{
+		remove(x, node->right);
+	}
+	else
+	{ 
+		if (node->left != nullptr&&node->right != nullptr)
+		{
+			treenode* temp = node->right;
+			if (temp->left != nullptr)
+			{
+				temp = temp->left;
+			}
+			node->data = temp->data;
+			remove(temp->data, node->right);
+
+		}
+		else 
+		{
+			treenode* treenode = node;
+			node = (node->left != nullptr) ? node->left: node->right;
+			delete treenode;
+		}
+
+
+
+	}
+
+}
+
+template<class Type>
+inline void BinarySerarchTree<Type>::insert(const Type & x, treenode* &node)
+{
+	if (node == nullptr) {
+		node = new treenode(nullptr, nullptr, x);
+		return;
+	}
+
+	if (x <= node->left->data) 
+	{
+		insert(x, node->left);
+		
+	}
+	if (x > node->right->data)
+	{
+		insert(x, node->right);
+	}
+
+
+
+
+}
+
+template<class Type>
+inline bool BinarySerarchTree<Type>::find(const Type & x, treenode * node)
+{
+	if (node == nullptr) 
+	{
+		return false;
+	}
+
+	if (x < node->left->data)
+	{
+		return find(x, root->left);
+	}
+	else if (x > root->right->data)
+	{
+		return find(x, root->right);
+	}
+	return true;
+
+}
+
+template<class Type>
+inline void BinarySerarchTree<Type>::remove(const Type & x)
+{
+	if (root != nullptr)
+	{
+		remove(x,root);
+	}
+
+
+}
+
+template<class Type>
+inline void BinarySerarchTree<Type>::insert(const Type & x)
+{
+	insert(x, root);
+}
+
+template<class Type>
+inline bool BinarySerarchTree<Type>::find(const Type & x)
+{
+	if (root != nullptr)
+	{
+		return find(x, root);
+	}
+	else {
+		return false;
+	}
+
+}
+
+template<class Emetype>
+class Avltree {
+public:
+	struct AvlNode
+	{
+		Emetype data;
+		AvlNode* left;
+		AvlNode* right;
+		int height;
+		AvlNode(const Emetype& elemnt, AvlNode *lf, AvlNode* rg, int h = 0): data(elemnt), left(lf), right(rg), height(h) {}
+	};
+	AvlNode* root;
+	Avltree(AvlNode *t = nullptr) :root(t) {}
+	~Avltree() {}
+	bool find(const Emetype& x) 
+	{
+		return Find(x,root);
+	}
+
+	bool remove(const Emetype& x)
+	{
+		remove(x, root);
+	}
+	void insert(const Emetype& x)
+	{
+		insert(x, root);
+	}
+private:
+	bool Find(const Emetype& x, AvlNode* &node) const ;
+	bool remove(const Emetype& x, AvlNode* &node);
+	void insert(const Emetype& x, AvlNode* &node);
+	int height(AvlNode* node) 
+	{
+		if (node != nullptr)
+		{
+			return node->height;
+		}
+		return 0;
+	
+	}
+	void LL(AvlNode* &node);
+	void LR(AvlNode* &node);
+	void RL(AvlNode* &node);
+	void RR(AvlNode* &node);
+	int max(int a, int b) { return a > b?a:b; }
+};
+
+
+
+template<class Emetype>
+inline bool Avltree<Emetype>::Find(const Emetype & x, AvlNode *& node) const
+{
+	if (node == nullptr)
+	{
+		return false;
+	}
+	if (x < node->data)
+	{
+		return Find(x, node->left);
+	}
+	else if (x < node->data)
+	{
+		return Find(x, node->right);
+	}
+	else
+	{
+		return true;
+	}
+	
+}
+
+template<class Emetype>
+inline bool Avltree<Emetype>::remove(const Emetype & x, AvlNode* &node)
+{
+	return false;
+}
+
+template<class Emetype>
+inline void Avltree<Emetype>::insert(const Emetype & x, AvlNode* &node)
+{
+
+	if (node == nullptr)
+	{
+		node = new AvlNode(x, nullptr, nullptr);
+	}
+	if (x < node->data)
+	{
+		insert(x, node->left);
+		if (height(node->left) - height(node->right) == 2)
+		{
+			if (x < node->left->data)
+			{
+				LL(node);
+			}
+			else
+			{
+				LR(node);
+			}
+		}
+	}
+	else if (x > node->data)
+	{
+		insert(x, node->right);
+		if (height(node->right) - height(node->left) == 2)
+		{
+			if (x > node->right->data)
+			{
+				RR(node);
+			}
+			else
+			{
+				RL(node);
+			}
+		}
+
+	}
+	
+
+	
+}
+
+template<class Emetype>
+inline void Avltree<Emetype>::LL(AvlNode *& node)
+{
+	AvlNode *t1 = node->left;
+	node->left = t1->right;
+	t1->left = node;
+	node->height = max(height(node->left), height(node->right)) + 1;
+	t1->height = max(height(t1->left), height(node->right)) + 1;
+	node = t1;
+
+}
+
+template<class Emetype>
+inline void Avltree<Emetype>::LR(AvlNode * &node)
+{
+	RR(node->left);
+	LL(node);
+
+}
+
+template<class Emetype>
+inline void Avltree<Emetype>::RL(AvlNode * &node)
+{
+	LL(node->right);
+	RR(node);
+	
+}
+
+template<class Emetype>
+inline void Avltree<Emetype>::RR(AvlNode * &node)
+{
+	AvlNode* t1 = node->right;
+	node->right = t1->left;
+	t1->left = node;
+	node->height = max(height(node->left),height(node->right))+1;
+	t1->height = max(height(t1->left), height(t1->right)) + 1;
+	node = t1;
+}
+
+enum color_set1 { RED, BLUE, WHITE, BLACK };
+
+
+template<class Emetype>
+class RedBlackTree
+{
+public:
+	enum setcolor
+	{
+		red,
+		black
+	};
+	struct Treenode
+	{
+		Treenode* left;
+		Treenode* right;
+		Treenode* parent;
+		Emetype data;
+		int color;
+		Treenode(Treenode* lf, Treenode* ri,const Emetype &da, int c) :left(lf), right(ri), color(c), data(da) {}
+
+	};
+
+	bool find(const Emetype &da)
+	{
+		find(da, root);
+	}
+	void insert(const Emetype& da)
+	{
+		insert(da, root);
+	}
+	bool remove(const Emetype& da)
+	{
+		remove(da, root);
+	}
+	
+private:
+	Treenode* root;
+	bool find(const Emetype &da, Treenode* node) const;
+	void insert(const Emetype& da, Treenode* node);
+	bool remove(const Emetype& da, Treenode* node);
+	void solveDoubleRed(Treenode* node);
+	void LL(Treenode* &node);
+	void LR(Treenode* &node);
+	void RL(Treenode* &node);
+	void RR(Treenode* &node);
+
+};
+
+template<class Emetype>
+inline bool RedBlackTree<Emetype>::find(const Emetype & da, Treenode * node) const
+{
+	return false;
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::insert(const Emetype & da, Treenode * node)
+{
+}
+
+template<class Emetype>
+inline bool RedBlackTree<Emetype>::remove(const Emetype & da, Treenode * node)
+{
+	return false;
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::solveDoubleRed(Treenode * node)
+{
+		while (node->parent != nullptr&&node->color== setcolor::red)
+	{
+		Treenode* father = node->parent;
+		Treenode* grandfahter = node->parent->parent;
+		Treenode* brother = nullptr;
+		if (grandfahter->left == father)
+		{
+			brother = grandfahter->right;
+		}
+		else
+		{
+			brother = grandfahter->left;
+		}
+		if (brother->color == setcolor::black)
+		{ //旋转
+
+			if (father == grandfahter->left)
+			{
+				if (node == father->left)
+				{
+					LL(grandfahter);
+				}
+				else
+				{
+					LR(grandfahter);
+				}
+				grandfahter->color = setcolor::black;
+				grandfahter->left->color = setcolor::red;
+				grandfahter->right->color = setcolor::red;
+			}
+			else
+			{
+				if (node == father->left)
+				{
+					RL(grandfahter);
+				}
+				else
+				{
+					RR(grandfahter);
+				}
+				grandfahter->color = setcolor::black;
+				grandfahter->left->color = setcolor::red;
+				grandfahter->right->color = setcolor::red;
+
+			}
+
+		}
+		else
+		{//着色旋转
+			
+			father->color = setcolor::black;
+			brother->color = setcolor::black;
+			grandfahter->color = setcolor::red;
+			node = grandfahter;
+			
+		}
+	}
+		root->color = setcolor::black;
+
+
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::LL(Treenode * &node)
+{
+	Treenode *t1 = node->left;
+
+	if (t1->right != nullptr)
+	{
+		node->left = t1->right;
+		t1->right->parent = node;
+	}
+	t1->left = node;
+	node->parent = t1;
+	node = t1;
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::LR(Treenode * &node)
+{
+	RR(node->left);
+	LL(node);
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::RL(Treenode * &node)
+{
+	LL(node->right);
+	RR(node);
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::RR(Treenode * &node)
+{
+	Treenode* t1 = node->right;
+	if (t1->left != nullptr)
+	{
+		node->right = t1->left;
+		t1->left->parent = node;
+	}
+	t1->left = node;
+	node->parent = t1;
+	node = t1;
+}
+
+
