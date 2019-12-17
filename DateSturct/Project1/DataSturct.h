@@ -1151,7 +1151,7 @@ inline void Avltree<Emetype>::RR(AvlNode * &node)
 	node = t1;
 }
 
-enum color_set1 { RED, BLUE, WHITE, BLACK };
+enum color_set1 { RED, BLACK };
 
 
 template<class Emetype>
@@ -1181,6 +1181,7 @@ public:
 	void insert(const Emetype& da)
 	{
 		insert(da, root);
+
 	}
 	bool remove(const Emetype& da)
 	{
@@ -1190,9 +1191,10 @@ public:
 private:
 	Treenode* root;
 	bool find(const Emetype &da, Treenode* node) const;
-	void insert(const Emetype& da, Treenode* node);
+	void insert(const Emetype& da, Treenode* &node);
 	bool remove(const Emetype& da, Treenode* node);
 	void solveDoubleRed(Treenode* node);
+	void solveLostBlack(Treenode *node);
 	void LL(Treenode* &node);
 	void LR(Treenode* &node);
 	void RL(Treenode* &node);
@@ -1207,20 +1209,81 @@ inline bool RedBlackTree<Emetype>::find(const Emetype & da, Treenode * node) con
 }
 
 template<class Emetype>
-inline void RedBlackTree<Emetype>::insert(const Emetype & da, Treenode * node)
+inline void RedBlackTree<Emetype>::insert(const Emetype & da, Treenode* &node)
 {
+
+	if (node == nullptr)
+	{	
+		Treenode *node = new Treenode(nullptr, nullptr, da, setcolor::red);
+		//solveDoubleRed(node);
+		return;
+	}
+
+	if (node->data < da)
+	{
+		insert(da, node->right);
+		if (node->right->parent != nullptr)
+		{
+			node->right->parent = node;
+			solveDoubleRed(node->right);
+		}
+	}
+	else if (node->data > da)
+	{
+		insert(da, node->left);
+		if (node->left->parent != nullptr)
+		{
+			node->left->parent = node;
+			solveDoubleRed(node->left);
+		}
+	}
+	
+
+
+
 }
 
 template<class Emetype>
 inline bool RedBlackTree<Emetype>::remove(const Emetype & da, Treenode * node)
 {
+
+	while (node->parent != root && node->parent->color==setcolor::black )
+	{
+		Treenode* parent = node->parent;
+		Treenode* uncle=nullptr;
+		if (parent->left == node)
+		{
+			uncle = parent->right;
+		}
+		else
+		{
+			uncle = parent->left;
+		}
+		if (parent->left == uncle)
+		{
+			if (uncle->color == setcolor::red)
+			{
+				uncle->color = setcolor::black;
+				node->parent->color = setcolor::red;
+				RR(node->parent);
+
+			}
+		}
+		else
+		{
+
+		}
+
+
+
+	}
 	return false;
 }
 
 template<class Emetype>
 inline void RedBlackTree<Emetype>::solveDoubleRed(Treenode * node)
 {
-		while (node->parent != nullptr&&node->color== setcolor::red)
+		while (node->parent != nullptr&&node->parent->color== setcolor::red)
 	{
 		Treenode* father = node->parent;
 		Treenode* grandfahter = node->parent->parent;
@@ -1280,6 +1343,11 @@ inline void RedBlackTree<Emetype>::solveDoubleRed(Treenode * node)
 		root->color = setcolor::black;
 
 
+}
+
+template<class Emetype>
+inline void RedBlackTree<Emetype>::solveLostBlack(Treenode * node)
+{
 }
 
 template<class Emetype>
