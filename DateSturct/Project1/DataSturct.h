@@ -1268,6 +1268,27 @@ inline bool RedBlackTree<Emetype>::remove(const Emetype & da, Treenode * node)
 				RR(node->parent);
 
 			}
+			if ((uncle->left == nullptr || uncle->left->color == setcolor::black)&&(uncle->right == nullptr || uncle->right->color == setcolor::black))
+			{
+				uncle->color = setcolor::red;
+				node = node->parent;
+			}
+			else
+			{
+				if (uncle->right != nullptr&&uncle->right->color == setcolor::black)
+				{
+					uncle->left->color = setcolor::black;
+					uncle->color= setcolor::black;
+					RR(uncle);
+					uncle = parent->left;
+				}
+				uncle->color = node->parent->color;
+				parent->color = setcolor::black;
+				uncle->right->color = setcolor::black;
+				LL(parent);
+				node = root;
+
+			}
 		}
 		else
 		{
@@ -1394,3 +1415,64 @@ inline void RedBlackTree<Emetype>::RR(Treenode * &node)
 }
 
 
+
+
+template<class Type>
+class AAtree {
+public:
+	struct AAnode
+	{
+		AAnode* left;
+		AAnode* right;
+		int level;
+		Type type;
+		AAnode(const Type &ty, AAnode *le, AAnode* ri, int lv = 1) :left(le), right(ri), level(lv), type(ty) {}
+	};
+	AAnode *root;
+	AAtree(AAnode* t = NULL) { root =t ; }
+	~AAtree() { makeEmpty(root); }
+	void find(const Type &ty) { find(ty, root); }
+	void add(const Type &ty) { add(ty, root); }
+	void remove(const Type &ty) {
+		remove(ty, root);
+	}
+
+private:
+	void find(const Type ty, AAnode* &node);
+	void add(const Type ty, AAnode* &node);
+	void remove(const Type ty, AAnode* &node);
+	void LL(AAnode* &node);
+	void RR(AAnode*& node);
+	void makeEmpty(AAnode* &node); 
+
+};
+
+template<class Type>
+inline void AAtree<Type>::find(const Type ty, AAnode *& node)
+{
+}
+
+template<class Type>
+inline void AAtree<Type>::add(const Type ty, AAnode *& node)
+{
+}
+
+template<class Type>
+inline void AAtree<Type>::remove(const Type ty, AAnode *& node)
+{
+}
+
+template<class Type>
+inline void AAtree<Type>::LL(AAnode *& node)
+{
+}
+
+template<class Type>
+inline void AAtree<Type>::RR(AAnode *& node)
+{
+}
+
+template<class Type>
+inline void AAtree<Type>::makeEmpty(AAnode *& node)
+{
+}
