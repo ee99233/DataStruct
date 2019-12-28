@@ -30,10 +30,20 @@ int main()
 	ca->MidOrder();
 	cout << endl;
 	cout << ca->result();*/
-	char s[7] = {'a','b','c','d','e','f','g'};
-	int w[7] = { 10,15,12,3,4,13,1 };
-	Hftree<char> hftree(w,s,7,'@');
-	hftree.serach();
+	//char s[7] = {'a','b','c','d','e','f','g'};
+	//int w[7] = { 10,15,12,3,4,13,1 };
+	//Hftree<char> hftree(w,s,7,'@');
+	//hftree.serach();
+
+	unsigned int uRes32 = 0xffff;
+
+	const unsigned int sign2 = ((uRes32 >> 16) & 0x8000);
+	const unsigned int exp2 = ((((const int)((uRes32 >> 23) & 0xff)) - 127 + 15) << 10);
+	const unsigned int mant2 = ((uRes32 >> 13) & 0x3ff);
+	const unsigned int bits = (sign2 | exp2 | mant2);
+	const unsigned int result = bits - 1024;
+	cout<<result<<endl;
+	cout << float(1111111111111);
 
 
 	system("pause");
